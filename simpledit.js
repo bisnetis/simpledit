@@ -127,16 +127,18 @@ $.fn.simplEdit = function() {
             //bind execCommand
             
             //check if appropriate text selected
-            var selection = window.getSelection();
-            var $parent = $(selection.anchorNode.parentElement);
-            if ($parent.data('owner') == uniqid && $parent.is(':focus') && selection!="") {
-                var tag = $(this).data('tag');
-                switch (tag) {
-                    default:
-                        document.execCommand(tag, false, null);
-                }
+            //var selection = window.getSelection();
+            //var $parent = $(selection.anchorNode.parentElement);
+            //if ($parent.data('owner') == uniqid && $parent.is(':focus')) {
+            var tag = $(this).data('tag');
+            alert(tag);
+            var bool;
+            switch (tag) {
+                default:
+                    bool=document.execCommand(tag);
             }
-            e.preventDefault();
+            //}
+            //e.preventDefault();
         });
         
         //interface
