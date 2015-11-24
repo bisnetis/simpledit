@@ -1,0 +1,18 @@
+.simplEdit-btn { 
+    height: 28px; 
+    width: 28px; 
+    margin-right: 2px; 
+    background-color: #F1F1F1; 
+    color: #6D6D6D; 
+    border: none; 
+} 
+.simplEdit-btn-lg { 
+  height: 28px; 
+  margin-right: 2px; 
+  background-color: #F1F1F1; 
+  color: #6D6D6D; 
+  border: none; 
+} 
+.simplEdit-btn:hover, .simplEdit-btn-lg:hover { 
+  background-color: #DADADA; 
+}
