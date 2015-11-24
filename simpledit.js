@@ -1,3 +1,5 @@
+
+
 //Content editable div jQuery plugin
 $.fn.simplEdit = function() {
     this.each(function() {
@@ -41,6 +43,38 @@ $.fn.simplEdit = function() {
             }
         }
         
+        function stripTags(context) {
+        	var selection=getHTMLOfSelection();
+            var txt;
+            txt = selection.replace(/<\/?[^>]+(>|$)/g, "");
+            var text;
+            text = context.replace(selection,txt);
+            return text;
+        }
+        function getHTMLOfSelection () {
+          var range;
+          if (document.selection && document.selection.createRange) {
+            range = document.selection.createRange();
+            return range.htmlText;
+          }
+          else if (window.getSelection) {
+            var selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+              range = selection.getRangeAt(0);
+              var clonedSelection = range.cloneContents();
+              var div = document.createElement('div');
+              div.appendChild(clonedSelection);
+              return div.innerHTML;
+            }
+            else {
+              return '';
+            }
+          }
+          else {
+            return '';
+          }
+        }
+        
         function processPaste (context, content) {
             paste_data = context.innerHTML;
             
@@ -82,7 +116,7 @@ $.fn.simplEdit = function() {
         });
         
             //add WYSIWYG UI
-        $this.before("<div><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='bold' style='font-weight: bold;'>B</button><button class='simplEdit-btn " + uniqid + "' type='button' style='font-style: italic;' data-tag='italic'>I</button><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='underline' style='text-decoration: underline;'>U</button><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='strikeThrough' style='text-decoration: line-through;'>S</button><button class='simplEdit-btn-lg' type='button' onclick='premiumbot.stripTags($(\"div[data-owner=" + uniqid + "]\"))'>Clear Formatting</button></div>");
+        $this.before("<div><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='bold' style='font-weight: bold;'>B</button><button class='simplEdit-btn " + uniqid + "' type='button' style='font-style: italic;' data-tag='italic'>I</button><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='underline' style='text-decoration: underline;'>U</button><button class='simplEdit-btn " + uniqid + "' type='button' data-tag='strikeThrough' style='text-decoration: line-through;'>S</button><button class='simplEdit-btn-lg' type='button' onclick=\"$(this).parent().next().html(stripTags($(this).parent().next().html()));\">Clear Formatting</button></div>");
         
             //prevent mouse down on buttons from causing content edit div to lose focus
         $('button[class="simplEdit-btn ' + uniqid + '"], button[class="simplEdit-btn-lg ' + uniqid + '"]').on('mousedown', function(e) {
@@ -95,7 +129,7 @@ $.fn.simplEdit = function() {
             //check if appropriate text selected
             var selection = window.getSelection();
             var $parent = $(selection.anchorNode.parentElement);
-            if ($parent.data('owner') == uniqid && $parent.is(':focus')) {
+            if ($parent.data('owner') == uniqid && $parent.is(':focus') && selection!="") {
                 var tag = $(this).data('tag');
                 switch (tag) {
                     default:
