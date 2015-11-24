@@ -131,11 +131,9 @@ $.fn.simplEdit = function() {
             //var $parent = $(selection.anchorNode.parentElement);
             //if ($parent.data('owner') == uniqid && $parent.is(':focus')) {
             var tag = $(this).data('tag');
-            alert(tag);
-            var bool;
             switch (tag) {
                 default:
-                    bool=document.execCommand(tag);
+                    document.execCommand(tag);
             }
             //}
             //e.preventDefault();
